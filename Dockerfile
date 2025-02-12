@@ -17,5 +17,5 @@ RUN pip install -e .
 ENV FLASK_APP=flaskr
 
 #RUN STAGE
-#rimuovere l'if e flask db upgrade && quando non si usa migrate
-CMD ["/bin/bash", "-c", "if [ ! -d 'migrations' ]; then flask db init; fi && flask db upgrade && flask --app flaskr run --host=0.0.0.0"]
+#rimuovere l'if e flask db  migrate && flask db upgrade && quando non si usa migrate
+CMD ["/bin/bash", "-c", "if [ ! -d 'migrations' ]; then flask db init; fi && flask db migrate -m 'Initial migration' && flask db upgrade && flask --app flaskr run --host=0.0.0.0"]
