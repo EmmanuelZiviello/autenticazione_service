@@ -12,9 +12,9 @@ COPY ./setup.py ./setup.py
 COPY ./flaskr ./flaskr
 RUN pip install -e .
 
+
 #rimuovere quando non si usa migrate
 ENV FLASK_APP=flaskr
-
 
 #RUN STAGE
 #rimuovere flask db upgrade && quando non si usa migrate
