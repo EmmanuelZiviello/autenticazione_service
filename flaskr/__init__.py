@@ -6,7 +6,7 @@ from marshmallow import ValidationError
 from sqlalchemy.exc import NoResultFound
 from smtplib import SMTPException
 from flask_cors import CORS
-from flaskr.db import set_DB_CONFIG
+from flaskr.db import set_DB_CONFIG,create_db
 #flask migrate da rimuovere se non lo si usa
 from flask_migrate import Migrate
 migrate = Migrate()
@@ -47,7 +47,8 @@ def create_app():
 
     with app.app_context():
      #   init_redis_connection_pool(app)
-        set_DB_CONFIG()
+        #set_DB_CONFIG()forse da sostituire con create db
+        create_db()
         #codice legato a migrate
         db.init_app(app)
         migrate.init_app(app,db)
