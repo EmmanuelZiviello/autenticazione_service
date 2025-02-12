@@ -5,9 +5,15 @@ COPY ./requirements.txt ./requirements.txt
 RUN python -m pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+# Installa Flask-Migrate separatamente , rimuovere la riga sotto quando non si usa migrate
+RUN pip install Flask-Migrate==3.1.0 
+
 COPY ./setup.py ./setup.py
 COPY ./flaskr ./flaskr
 RUN pip install -e .
+
+# Esegui la migrazione del database, rimuovere la riga sotto quando non si usa migrate
+RUN flask db upgrade
 
 #RUN STAGE
 

@@ -40,9 +40,9 @@ def create_app():
     #if app.config['REDIS_PORT'] is None:
      #   app.config['REDIS_PORT'] = 6379
 
-    #with app.app_context():
+    with app.app_context():
      #   init_redis_connection_pool(app)
-      #  set_DB_CONFIG()
+        set_DB_CONFIG()
 
     if __name__ != '__main__':
         gunicorn_logger = getLogger('gunicorn.error')
