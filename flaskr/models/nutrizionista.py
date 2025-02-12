@@ -14,6 +14,7 @@ class NutrizionistaModel(Base):
     link_informativa = Column(String(50))
     pazienti = relationship("PazienteModel", back_populates='nutrizionista', lazy=True)
 
+
     def __init__(self, nome, cognome, password, email):
         self.nome = nome
         self.cognome = cognome

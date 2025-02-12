@@ -21,8 +21,6 @@ class RichiestaAggiuntaPazienteModel(Base):
     fk_paziente = Column(String(10), 
                             ForeignKey("paziente.id_paziente"), 
                             nullable=False)
-    nutrizionista = relationship("NutrizionistaModel", back_populates='richieste_aggiunta_paziente', lazy=True)
-    paziente = relationship("PazienteModel", back_populates='richieste_aggiunta_paziente', lazy=True)
     __table_args__ = (UniqueConstraint(fk_paziente, fk_nutrizionista, name="one_request_for_each_patient_by_a_nutritionist"),)
     
 
