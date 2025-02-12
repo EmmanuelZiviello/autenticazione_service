@@ -12,9 +12,7 @@ COPY ./setup.py ./setup.py
 COPY ./flaskr ./flaskr
 RUN pip install -e .
 
-# Esegui la migrazione del database, rimuovere la riga sotto quando non si usa migrate
-RUN flask db upgrade
 
 #RUN STAGE
-
-CMD ["/bin/bash", "-c", "flask --app flaskr run --host=0.0.0.0"]
+#rimuovere flask db upgrade && quando non si usa migrate
+CMD ["/bin/bash", "-c", "flask db upgrade && flask --app flaskr run --host=0.0.0.0"]
