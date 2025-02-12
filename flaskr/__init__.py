@@ -7,12 +7,6 @@ from sqlalchemy.exc import NoResultFound
 from smtplib import SMTPException
 from flask_cors import CORS
 from flaskr.db import set_DB_CONFIG,create_db
-#flask migrate da rimuovere se non lo si usa
-from flask_migrate import Migrate
-migrate = Migrate()
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
-##################
 from flaskr.ma import ma
 
 from flaskr.namespaces import paziente_ns,admin_ns,nutrizionista_ns
@@ -49,10 +43,7 @@ def create_app():
      #   init_redis_connection_pool(app)
         #set_DB_CONFIG()forse da sostituire con create db
         create_db()
-        #codice legato a migrate
-        db.init_app(app)
-        migrate.init_app(app,db)
-        ##############
+
     if __name__ != '__main__':
         gunicorn_logger = getLogger('gunicorn.error')
         app.logger.handlers = gunicorn_logger.handlers
