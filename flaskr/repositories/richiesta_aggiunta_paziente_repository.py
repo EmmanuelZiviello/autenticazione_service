@@ -1,7 +1,6 @@
 from flaskr.models.richiesta_aggiunta_paziente import RichiestaAggiuntaPazienteModel
 from flaskr.models.paziente import PazienteModel
 from flaskr.models.nutrizionista import NutrizionistaModel
-from flaskr.models.richiesta_revocata import RichiestaRevocataModel
 from datetime import datetime
 from flaskr.db import get_session
 
