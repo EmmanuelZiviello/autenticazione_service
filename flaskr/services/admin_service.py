@@ -14,13 +14,13 @@ nutrizionista_schema = NutrizionistaSchema()
 
 class AdminService:
     @staticmethod
-    def login_admin(self, id_admin, password):
+    def login_admin(id_admin, password):
         stored_id, stored_password = AdminRepository.get_admin_credentials()
         if id_admin == stored_id and password == stored_password:
             return {
                 "esito": "successo",
-                "access_token": self.jwt_factory.create_access_token(id_admin, 'admin'),
-                "refresh_token": self.jwt_factory.create_access_token(id_admin, 'admin')
+                "access_token": jwt_factory.create_access_token(id_admin, 'admin'),
+                "refresh_token": jwt_factory.create_access_token(id_admin, 'admin')
             }, 200
         return {"esito": "credenziali errate"}, 401
     
