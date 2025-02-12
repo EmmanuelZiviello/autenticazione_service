@@ -1,7 +1,7 @@
 from flaskr.db import Base
 from sqlalchemy import Column, Integer, String, LargeBinary
 from sqlalchemy.orm import relationship
-from flaskr.models import PazienteModel
+from flaskr.models.paziente import PazienteModel
 
 class NutrizionistaModel(Base):
     __tablename__ = 'nutrizionista'
