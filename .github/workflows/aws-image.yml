@@ -33,7 +33,7 @@ jobs:
         # Costruisci l'immagine Docker
         docker build -t autenticazione-service .
 
-        docker tag autententicazione-service:latest 703671925635.dkr.ecr.eu-central-1.amazonaws.com/autenticazione-service:latest
+        docker tag autenticazione-service:latest 703671925635.dkr.ecr.eu-central-1.amazonaws.com/autenticazione-service:latest
         
         # Pusha l'immagine su Amazon ECR
         docker push 703671925635.dkr.ecr.eu-central-1.amazonaws.com/autenticazione-service:latest
