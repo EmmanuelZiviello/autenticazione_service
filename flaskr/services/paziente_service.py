@@ -65,5 +65,8 @@ class PazienteService:
         #except SMTPRecipientsRefused:
          #   session.close()
           #  return {"message": "email non valida"}, 400
+        
+        output_richiesta= paziente_schema_post_return.dump(paziente), 201
         session.close()
-        return paziente_schema_post_return.dump(paziente), 201
+        print(output_richiesta)#debug del valore ,
+        return output_richiesta
