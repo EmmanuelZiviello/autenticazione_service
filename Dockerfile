@@ -12,5 +12,4 @@ RUN pip install -e .
 
 
 #RUN STAGE
-#rimuovere l'if e flask db  migrate && flask db upgrade && quando non si usa migrate
 CMD ["/bin/bash", "-c", "flask --app flaskr run --host=0.0.0.0"]
