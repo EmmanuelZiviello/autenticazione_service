@@ -1,21 +1,20 @@
 from flaskr.repositories.nutrizionista_repository import NutrizionistaRepository
 from flaskr.repositories.paziente_repository import PazienteRepository
-from flaskr.repositories.richiesta_aggiunta_paziente_repository import RichiestaAggiuntaPazienteRepository
+
 from flaskr.utils.hashing_password import check_pwd
 from flaskr.utils.jwt_token_factory import JWTTokenFactory
 from flaskr.schemas.nutrizionista import NutrizionistaSchema
 from flaskr.schemas.paziente import PazienteSchema
-from flaskr.schemas.richiesta_aggiunta_paziente import RichiestaAggiuntaPazienteSchema
 from flaskr.db import get_session
 from flaskr.utils.password_generator import PasswordGenerator
 from flaskr.utils.id_generation import genera_id_valido
 from flaskr.utils.hashing_password import hash_pwd
-from datetime import datetime
+
 
 jwt_factory = JWTTokenFactory()
 nutrizionista_schema = NutrizionistaSchema(load_instance=False, only=('email', 'password'))
 paziente_schema_post = PazienteSchema(partial=['id_paziente', 'fk_nutrizionista', 'data_nascita', 'sesso', 'password'], load_only=['id_paziente', 'password'])
-richiesta_schema=RichiestaAggiuntaPazienteSchema()
+
 
 class NutrizionistaService:
 
@@ -82,15 +81,6 @@ class NutrizionistaService:
         if paziente is None:
             session.close()
             return {"message":"Errore assegnazione nutrizionista"},400
-        #ora deve creare una richiesta aggiunta_paziente
-        richiesta_data = {
-        'id_paziente': paziente.id_paziente,
-        'id_nutrizionista': nutrizionista.id_nutrizionista,
-        'accettata': True,
-        'data_accettazione': datetime.now()
-    }
-        richiesta=richiesta_schema.load(richiesta_data,session=session)
-        RichiestaAggiuntaPazienteRepository.save_richiesta(richiesta,session)
         session.close()
         return {"esito_registrazione": "successo"}, 201
        
