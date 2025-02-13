@@ -1,5 +1,4 @@
 from flaskr.db import Base
-from flaskr.models.consensi_utente import ConsensiUtenteModel
 
 from sqlalchemy import Column, String, Date, ForeignKey, Integer, LargeBinary, Boolean
 from sqlalchemy.orm import relationship, backref
