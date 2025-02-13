@@ -2,7 +2,7 @@ import string
 from sqlalchemy.orm.exc import NoResultFound
 import random
 from flaskr.db import get_session
-from flaskr.models.paziente import PazienteModel
+from flaskr.repositories.paziente_repository import PazienteRepository
 
 ID_LENGTH = 7
 
@@ -27,7 +27,7 @@ def genera_id_valido():
 def verifica_disponibilita_id(id):
     session = get_session('patient')
     try:
-        result = PazienteModel.find_by_id(id, session)
+        result = PazienteRepository.find_by_id(id, session)
         session.close()
         if result is not None:
             return False
