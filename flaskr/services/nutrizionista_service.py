@@ -48,7 +48,7 @@ class NutrizionistaService:
 
 
     @staticmethod
-    def register_paziente(s_paziente, nutrizionista_email, session):
+    def register_paziente(s_paziente, nutrizionista_email):
     # Verifica se il nutrizionista esiste nel database
         session = get_session('dietician')
 
