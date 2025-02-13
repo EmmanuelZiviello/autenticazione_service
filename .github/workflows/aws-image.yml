@@ -31,7 +31,9 @@ jobs:
         IMAGE_TAG: latest  # Tag dell'immagine
       run: |
         # Costruisci l'immagine Docker
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t autententicazione-service .
+
+        docker tag autententicazione-service:latest 703671925635.dkr.ecr.eu-central-1.amazonaws.com/autententicazione-service:latest
         
         # Pusha l'immagine su Amazon ECR
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push 703671925635.dkr.ecr.eu-central-1.amazonaws.com/autententicazione-service:latest
