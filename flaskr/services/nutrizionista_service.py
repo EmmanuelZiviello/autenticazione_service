@@ -83,7 +83,7 @@ class NutrizionistaService:
         paziente=PazienteRepository.aggiorna_nutrizionista(paziente,nutrizionista.id_nutrizionista,nutrizionista,session)
         if paziente is None:
             session.close()
-            return {"message":"Errore creazione paziente"},400
+            return {"message":"Errore assegnazione nutrizionista"},400
         #ora deve creare una richiesta aggiunta_paziente
         richiesta_data = {
         'id_paziente': paziente.id_paziente,
