@@ -75,10 +75,8 @@ class NutrizionistaService:
         s_paziente['id_paziente'] = genera_id_valido()
         paziente=paziente_schema_post.load(s_paziente,session=session)
         paziente.password=hash_pwd(password)
-        paziente=PazienteRepository.add(paziente,session)
-        if paziente is None:
-            session.close()
-            return {"message":"Errore creazione paziente"},400
+        PazienteRepository.add(paziente,session)
+        
 
         paziente=PazienteRepository.aggiorna_nutrizionista(paziente,nutrizionista.id_nutrizionista,nutrizionista,session)
         if paziente is None:

@@ -29,6 +29,7 @@ class PazienteRepository:
         paziente.fk_nutrizionista = id_nutrizionista
         paziente.nutrizionista =nutrizionista
         session.add(paziente)
+        session.commit()
         return paziente
     
 
@@ -38,6 +39,7 @@ class PazienteRepository:
         paziente.fk_nutrizionista =None
         paziente.nutrizionista =None
         session.add(paziente)
+        session.commit()
         return paziente
     
    
