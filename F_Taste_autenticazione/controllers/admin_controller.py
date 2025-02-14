@@ -4,7 +4,7 @@ from F_Taste_autenticazione.namespaces import admin_ns
 from F_Taste_autenticazione.limiter_config import limiter
 from F_Taste_autenticazione.services.admin_service import AdminService
 from F_Taste_autenticazione.schemas.nutrizionista import NutrizionistaSchema
-from F_Taste_autenticazione.jwt_custom_decorators import admin_required
+from F_Taste_autenticazione.utils.jwt_custom_decorators import admin_required
 
 login_admin = admin_ns.model('admin login', {
     'password': fields.String('password of the admin'),
