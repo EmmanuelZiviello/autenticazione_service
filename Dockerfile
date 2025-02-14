@@ -7,9 +7,9 @@ RUN pip install -r requirements.txt
 
 
 COPY ./setup.py ./setup.py
-COPY ./flaskr ./flaskr
+COPY ./F_Taste_autenticazione ./F_Taste_autenticazione
 RUN pip install -e .
 
 
 #RUN STAGE
-CMD ["/bin/bash", "-c", "flask --app flaskr run --host=0.0.0.0"]
+CMD ["/bin/bash", "-c", "flask --app F_Taste_autenticazione run --host=0.0.0.0"]
