@@ -21,7 +21,7 @@ class NutrizionistaService:
 
     @staticmethod
     def login_nutrizionista(email, password, json_data):
-        session = get_session('dietician')
+        session = get_session('dietitian')
         validation_errors = nutrizionista_schema.validate(json_data)
         if validation_errors:
             session.close()
@@ -49,7 +49,7 @@ class NutrizionistaService:
     @staticmethod
     def register_paziente(s_paziente, nutrizionista_email):
     # Verifica se il nutrizionista esiste nel database
-        session = get_session('dietician')
+        session = get_session('dietitian')
 
         if "email" not in s_paziente:
             session.close()

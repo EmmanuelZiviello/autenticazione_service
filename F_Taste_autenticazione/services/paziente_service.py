@@ -5,6 +5,17 @@ from F_Taste_autenticazione.db import get_session
 from F_Taste_autenticazione.utils.id_generation import genera_id_valido
 from F_Taste_autenticazione.utils.hashing_password import hash_pwd
 from F_Taste_autenticazione.schemas.paziente import PazienteSchema
+from F_Taste_autenticazione.utils.encrypting_id import encrypt_id
+import F_Taste_autenticazione.utils.credentials as credentials
+from F_Taste_autenticazione.utils.jwt_functions import ACCESS_EXPIRES
+
+#import di kafka
+from F_Taste_autenticazione.kafka.kafka_producer import send_kafka_message
+from F_Taste_autenticazione.kafka.kafka_consumer import wait_for_kafka_response
+
+######
+
+from flask_jwt_extended import create_access_token#non sicuro se da inserire qui direttamente
 
 jwt_factory = JWTTokenFactory()
 
@@ -33,7 +44,7 @@ class PazienteService:
             }, 200
         session.close()
         return {"esito_login": "password errata"}, 401
-    
+    '''
     @staticmethod
     def register_paziente(s_paziente):
         session = get_session('patient')
@@ -68,5 +79,47 @@ class PazienteService:
         
         output_richiesta= paziente_schema_post_return.dump(paziente), 201
         session.close()
-        print(output_richiesta)#debug del valore ,
         return output_richiesta
+        '''
+    
+    @staticmethod
+    def register_paziente(s_paziente):
+        #manda messaggio kafka al servizio paziente per notificare della registrazione
+        send_kafka_message("patient.registration.request", s_paziente)
+        #aspetta la risposta kafka dal servizio paziente
+        response=wait_for_kafka_response(["patient.registration.success", "patient.registration.failed"])
+        return response
+
+    @staticmethod
+    def cambio_pw_paziente(id_paziente,json_data):
+        session = get_session('patient')
+        old_pw=json_data['password']
+        new_pw=json_data['new_password']
+        paziente = PazienteRepository.find_by_id(id_paziente,session)
+        
+        if paziente is None:
+            session.close()
+            return {"message": "Paziente non trovato"}, 401
+        if check_pwd(old_pw,paziente.password):
+            paziente.password=hash_pwd(new_pw)
+            PazienteRepository.add(paziente,session)
+            session.close()
+            return{"message":"Password aggiornata con successo"},200
+        session.close()
+        return {"message":"Vecchia Password errata"},400
+    
+    @staticmethod
+    def recupero_pw_paziente(id_paziente):
+        session=get_session('patient')
+        paziente = PazienteRepository.find_by_id(id_paziente,session)
+        
+        if paziente is None:
+            session.close()
+            return {"message": "Paziente non trovato"}, 401
+        session.close()
+        token=create_access_token(credentials.reset_password,ACCESS_EXPIRES)
+        link=credentials.endpoint + "/password_reset?jwt=" + token + "&id=" + encrypt_id(id_paziente)
+        #invia email di recupero password
+        return {"esito_cambio_pw":"Email di recupero password inviata con successo"},200
+
+        
