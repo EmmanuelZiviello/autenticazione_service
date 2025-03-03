@@ -12,7 +12,6 @@ from F_Taste_autenticazione.utils.jwt_functions import ACCESS_EXPIRES
 #import di kafka
 from F_Taste_autenticazione.kafka.kafka_producer import send_kafka_message
 from F_Taste_autenticazione.kafka.kafka_consumer import wait_for_kafka_response
-
 ######
 
 from flask_jwt_extended import create_access_token#non sicuro se da inserire qui direttamente
@@ -25,6 +24,13 @@ paziente_schema_post_return = PazienteSchema(only=['id_paziente'])
 
 class PazienteService:
 
+    @staticmethod
+    def login_paziente(email_paziente,password):
+        message={"email":email_paziente,"password":password}
+        send_kafka_message("patient.login.request",message)
+        response=wait_for_kafka_response(["patient.login.success", "patient.login.failed"])
+        return response
+    '''
     @staticmethod
     def login_paziente(email_paziente, password):
         session = get_session('patient')
@@ -44,6 +50,7 @@ class PazienteService:
             }, 200
         session.close()
         return {"esito_login": "password errata"}, 401
+    '''
     '''
     @staticmethod
     def register_paziente(s_paziente):

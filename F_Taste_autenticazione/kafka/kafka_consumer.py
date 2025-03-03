@@ -12,6 +12,8 @@ KAFKA_BROKER_URL = "kafka-ftaste-kafka-ftaste.j.aivencloud.com:11837"
 consumer = KafkaConsumer(
     'patient.registration.success',
     'patient.registration.failed',
+    'patient.login.success',
+    'patient.login.failed',
     bootstrap_servers=KAFKA_BROKER_URL,
     client_id="auth_consumer",
     group_id="auth_service",
@@ -23,7 +25,7 @@ consumer = KafkaConsumer(
     value_deserializer=lambda x: json.loads(x.decode("utf-8"))
 )
 
-def wait_for_kafka_response(topics):
+def wait_for_kafka_response_registration(topics):
     for message in consumer:
         if message.topic in topics:
             return message.value  # Restituisce il valore del messaggio ricevuto
