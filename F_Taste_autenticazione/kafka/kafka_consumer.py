@@ -25,7 +25,7 @@ consumer = KafkaConsumer(
     value_deserializer=lambda x: json.loads(x.decode("utf-8"))
 )
 
-def wait_for_kafka_response_registration(topics):
+def wait_for_kafka_response(topics):
     for message in consumer:
         if message.topic in topics:
             return message.value  # Restituisce il valore del messaggio ricevuto
