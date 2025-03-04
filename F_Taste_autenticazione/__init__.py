@@ -11,7 +11,7 @@ from F_Taste_autenticazione.ma import ma
 
 from F_Taste_autenticazione.namespaces import paziente_ns,admin_ns,nutrizionista_ns
 from F_Taste_autenticazione.controllers.admin_controller import AdminLogin,AdminNutrizionista
-from F_Taste_autenticazione.controllers.paziente_controller import Paziente,PazienteLogin
+from F_Taste_autenticazione.controllers.paziente_controller import Paziente,PazienteLogin,PazientePassword
 from F_Taste_autenticazione.controllers.nutrizionista_controller import NutrizionistaLogin,NutrizionistaPaziente
 
 
@@ -140,6 +140,7 @@ def create_app():
     #paziente resources here
     paziente_ns.add_resource(PazienteLogin, '/login')
     paziente_ns.add_resource(Paziente, '')
+    paziente_ns.add_resource(PazientePassword,'/password')
 
     
     #admin resources here
