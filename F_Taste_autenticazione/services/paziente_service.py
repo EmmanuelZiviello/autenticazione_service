@@ -96,7 +96,7 @@ class PazienteService:
         #aspetta la risposta kafka dal servizio paziente
         response=wait_for_kafka_response(["patient.registration.success", "patient.registration.failed"])
         return response
-
+    '''
     @staticmethod
     def cambio_pw_paziente(id_paziente,json_data):
         session = get_session('patient')
@@ -114,7 +114,16 @@ class PazienteService:
             return{"message":"Password aggiornata con successo"},200
         session.close()
         return {"message":"Vecchia Password errata"},400
-    
+         '''
+    @staticmethod
+    def cambio_pw_paziente(id_paziente,json_data):
+
+        message={"password":json_data['password'],"new_password":json_data['new_password'],"id_paziente":id_paziente}
+        send_kafka_message("patient.cambiopw.request",message)
+        response=wait_for_kafka_response(["patient.cambiopw.success", "patient.cambiopw.failed"])
+        return response
+
+
     @staticmethod
     def recupero_pw_paziente(id_paziente):
         session=get_session('patient')

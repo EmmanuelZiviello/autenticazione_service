@@ -14,6 +14,8 @@ consumer = KafkaConsumer(
     'patient.registration.failed',
     'patient.login.success',
     'patient.login.failed',
+    'patient.cambiopw.success',
+    'patient.cambiopw.failed',
     bootstrap_servers=KAFKA_BROKER_URL,
     client_id="auth_consumer",
     group_id="auth_service",
