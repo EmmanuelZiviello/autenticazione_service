@@ -123,7 +123,7 @@ class PazienteService:
         response=wait_for_kafka_response(["patient.cambiopw.success", "patient.cambiopw.failed"])
         return response
 
-
+    '''
     @staticmethod
     def recupero_pw_paziente(id_paziente):
         session=get_session('patient')
@@ -137,5 +137,15 @@ class PazienteService:
         link=credentials.endpoint + "/password_reset?jwt=" + token + "&id=" + encrypt_id(id_paziente)
         #invia email di recupero password
         return {"esito_cambio_pw":"Email di recupero password inviata con successo"},200
-
+        '''
+    @staticmethod
+    def recupero_pw_paziente(json_data):
+        id_paziente=json_data['id_paziente']
+        if not id_paziente:  # Controllo valore vuoto o assente
+            return {"message": "ID paziente richiesto"}, 400  # HTTP 400 Bad Request
+        message={"id_paziente":id_paziente}
+        send_kafka_message("patient.recuperopw.request",message)
+        response=wait_for_kafka_response(["patient.recuperopw.success", "patient.recuperopw.failed"])
+        return response
+        
         
