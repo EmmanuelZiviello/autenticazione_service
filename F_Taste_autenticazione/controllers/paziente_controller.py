@@ -43,7 +43,6 @@ class Paziente(Resource):
     @paziente_ns.doc('signup paziente')
     def post(self):
         s_paziente = request.get_json()        
-        # Chiamata al servizio di registrazione del paziente
         return PazienteService.register_paziente(s_paziente)
     
 
@@ -55,7 +54,6 @@ class PazientePassword(Resource):
     def put(self):
         json_data=request.get_json()
         id_paziente=get_jwt_identity()
-        #Chiamata al servizio di cambio password del paziente
         return PazienteService.cambio_pw_paziente(id_paziente,json_data)
 
     @limiter.limit("40/day; 15/hour; 5/minute; 1/second")
@@ -63,7 +61,4 @@ class PazientePassword(Resource):
     @paziente_ns.doc('il paziente riceve per email il link al password changer')
     def post(self):
         json_data=request.get_json()
-        id_paziente=json_data['id_paziente']
-        if not id_paziente:  # Controllo valore vuoto o assente
-            return {"message": "ID paziente richiesto"}, 400  # HTTP 400 Bad Request
-        return PazienteService.recupero_pw_paziente(id_paziente)
+        return PazienteService.recupero_pw_paziente(json_data)
