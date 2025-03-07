@@ -23,7 +23,8 @@ class NutrizionistaLogin(Resource):
     @nutrizionista_ns.doc('login nutrizionista')
     def post(self):
         data = request.get_json()
-        return NutrizionistaService.login_nutrizionista(data['email'], data['password'], data)
+        #return NutrizionistaService.login_nutrizionista(data['email'], data['password'], data)
+        return NutrizionistaService.login_nutrizionista(data['email'],data['password'])
 
 class NutrizionistaPaziente(Resource):
     

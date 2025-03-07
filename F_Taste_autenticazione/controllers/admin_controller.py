@@ -11,6 +11,16 @@ login_admin = admin_ns.model('admin login', {
     'id_admin': fields.String('id of the admin')
 })
 
+nutrizionista_model = admin_ns.model('Nutrizionista', {
+    'email': fields.String(description='Email del nutrizionista', required=True),
+    'nome': fields.String(description='Nome del nutrizionista', required=True),
+    'cognome': fields.String(description='Cognome del nutrizionista', required=True),
+    'password': fields.String(description='Password del nutrizionista', required=True),
+    'link_informativa': fields.String(description='Link all\'informativa', required=False)
+})
+
+
+
 nutrizionista_schema = NutrizionistaSchema()
 
 class AdminLogin(Resource):
@@ -25,7 +35,7 @@ class AdminLogin(Resource):
 
 class AdminNutrizionista(Resource):
     @admin_required()
-    @admin_ns.expect(nutrizionista_schema)
+    @admin_ns.expect(nutrizionista_model)
     @admin_ns.doc('registra nutrizionista')
     def post(self):
         s_nutrizionista = request.get_json()        

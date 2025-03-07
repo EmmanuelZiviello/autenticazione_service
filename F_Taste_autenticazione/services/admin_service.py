@@ -5,14 +5,19 @@ from F_Taste_autenticazione.repositories.nutrizionista_repository import Nutrizi
 from F_Taste_autenticazione.schemas.nutrizionista import NutrizionistaSchema
 from F_Taste_autenticazione.utils.hashing_password import hash_pwd
 
-
+#import di kafka
+from F_Taste_autenticazione.kafka.kafka_producer import send_kafka_message
+from F_Taste_autenticazione.kafka.kafka_consumer import wait_for_kafka_response
+######
 
 jwt_factory = JWTTokenFactory()
 
 nutrizionista_schema = NutrizionistaSchema()
 
 
+
 class AdminService:
+    '''
     @staticmethod
     def login_admin(id_admin, password):
         stored_id, stored_password = AdminRepository.get_admin_credentials()
@@ -23,7 +28,30 @@ class AdminService:
                 "refresh_token": jwt_factory.create_access_token(id_admin, 'admin')
             }, 200
         return {"esito": "credenziali errate"}, 401
+        '''
+    #da fare
+    @staticmethod
+    def login_admin(id_admin,password):
+        message={"id_admin":id_admin,"password":password}
+        send_kafka_message("admin.login.request",message)
+        response=wait_for_kafka_response(["admin.login.success", "admin.login.failed"])
+        return response
     
+    #da provare
+    @staticmethod
+    def register_nutrizionista(s_nutrizionista):
+        message = {
+        "nome": s_nutrizionista['nome'],
+        "cognome": s_nutrizionista['cognome'],
+        "password": s_nutrizionista['password'],
+        "email": s_nutrizionista['email'],
+        "link_informativa": s_nutrizionista.get('link_informativa') # Restituisce None se 'link_informativa' non è presente
+    }
+        send_kafka_message("admin.dietitianRegistration.request",message)
+        response=wait_for_kafka_response(["admin.dietitianRegistration.success", "admin.dietitianRegistration.failed"])
+        return response
+
+    '''
     @staticmethod
     def register_nutrizionista(s_nutrizionista):
         session = get_session('admin')
@@ -46,3 +74,4 @@ class AdminService:
         NutrizionistaRepository.add(nutrizionista, session)
         session.close()
         return {'message': 'registrazione avvenuta con successo'}, 201
+    '''

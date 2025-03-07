@@ -10,6 +10,10 @@ from F_Taste_autenticazione.utils.password_generator import PasswordGenerator
 from F_Taste_autenticazione.utils.id_generation import genera_id_valido
 from F_Taste_autenticazione.utils.hashing_password import hash_pwd
 
+#import di kafka
+from F_Taste_autenticazione.kafka.kafka_producer import send_kafka_message
+from F_Taste_autenticazione.kafka.kafka_consumer import wait_for_kafka_response
+######
 
 jwt_factory = JWTTokenFactory()
 nutrizionista_schema = NutrizionistaSchema(load_instance=False, only=('email', 'password'))
@@ -18,7 +22,7 @@ paziente_schema_post = PazienteSchema(partial=['id_paziente', 'fk_nutrizionista'
 
 class NutrizionistaService:
 
-
+    '''
     @staticmethod
     def login_nutrizionista(email, password, json_data):
         session = get_session('dietitian')
@@ -44,8 +48,27 @@ class NutrizionistaService:
 
         session.close()
         return {"esito_login": "password errata"}, 401
+    '''
+    #da provare
+    @staticmethod
+    def login_nutrizionista(email_nutrizionista,password):
+        message={"email":email_nutrizionista,"password":password}
+        send_kafka_message("dietitian.login.request",message)
+        response=wait_for_kafka_response(["dietitian.login.success", "dietitian.login.failed"])
+        return response
 
+    #da fare
+    @staticmethod
+    def register_paziente(s_paziente,nutrizionista_email):
+        paziente_email=s_paziente['email']
+        if not paziente_email:  # Controllo valore vuoto o assente
+            return {"message": "email paziente richiesta"}, 400  # HTTP 400 Bad Request
+        message={"paziente_email":paziente_email,"nutrizionista_email":nutrizionista_email}
+        send_kafka_message("dietitian.registrationPatientFromDietitian.request",message)
+        response=wait_for_kafka_response(["dietitian.registrationPatientFromDietitian.success", "dietitian.registrationPatientFromDietitian.failed"])
+        return response
 
+    '''
     @staticmethod
     def register_paziente(s_paziente, nutrizionista_email):
     # Verifica se il nutrizionista esiste nel database
@@ -94,3 +117,4 @@ class NutrizionistaService:
 
         # Aggiungi paziente e richiesta al database
        # add_paziente_and_request(paziente, nutrizionista, session)
+    '''
