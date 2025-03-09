@@ -15,8 +15,7 @@ nutrizionista_model = admin_ns.model('Nutrizionista', {
     'email': fields.String(description='Email del nutrizionista', required=True),
     'nome': fields.String(description='Nome del nutrizionista', required=True),
     'cognome': fields.String(description='Cognome del nutrizionista', required=True),
-    'password': fields.String(description='Password del nutrizionista', required=True),
-    'link_informativa': fields.String(description='Link all\'informativa', required=False)
+    'password': fields.String(description='Password del nutrizionista', required=True)
 })
 
 

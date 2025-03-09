@@ -29,7 +29,7 @@ class AdminService:
             }, 200
         return {"esito": "credenziali errate"}, 401
         '''
-    #da fare
+    
     @staticmethod
     def login_admin(id_admin,password):
         message={"id_admin":id_admin,"password":password}
@@ -44,8 +44,7 @@ class AdminService:
         "nome": s_nutrizionista['nome'],
         "cognome": s_nutrizionista['cognome'],
         "password": s_nutrizionista['password'],
-        "email": s_nutrizionista['email'],
-        "link_informativa": s_nutrizionista.get('link_informativa') # Restituisce None se 'link_informativa' non è presente
+        "email": s_nutrizionista['email']
     }
         send_kafka_message("admin.dietitianRegistration.request",message)
         response=wait_for_kafka_response(["admin.dietitianRegistration.success", "admin.dietitianRegistration.failed"])
