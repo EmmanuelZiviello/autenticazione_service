@@ -1,23 +1,15 @@
-from F_Taste_autenticazione.repositories.nutrizionista_repository import NutrizionistaRepository
-from F_Taste_autenticazione.repositories.paziente_repository import PazienteRepository
-
 from F_Taste_autenticazione.utils.hashing_password import check_pwd
 from F_Taste_autenticazione.utils.jwt_token_factory import JWTTokenFactory
-from F_Taste_autenticazione.schemas.nutrizionista import NutrizionistaSchema
-from F_Taste_autenticazione.schemas.paziente import PazienteSchema
-from F_Taste_autenticazione.db import get_session
 from F_Taste_autenticazione.utils.password_generator import PasswordGenerator
 from F_Taste_autenticazione.utils.id_generation import genera_id_valido
 from F_Taste_autenticazione.utils.hashing_password import hash_pwd
-
 #import di kafka
 from F_Taste_autenticazione.kafka.kafka_producer import send_kafka_message
 from F_Taste_autenticazione.kafka.kafka_consumer import wait_for_kafka_response
 ######
 
 jwt_factory = JWTTokenFactory()
-nutrizionista_schema = NutrizionistaSchema(load_instance=False, only=('email', 'password'))
-paziente_schema_post = PazienteSchema(partial=['id_paziente', 'fk_nutrizionista', 'data_nascita', 'sesso', 'password'], load_only=['id_paziente', 'password'])
+
 
 
 class NutrizionistaService:

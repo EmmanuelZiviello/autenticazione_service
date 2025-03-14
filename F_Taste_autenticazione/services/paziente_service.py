@@ -1,10 +1,7 @@
-from F_Taste_autenticazione.repositories.paziente_repository import PazienteRepository
 from F_Taste_autenticazione.utils.hashing_password import check_pwd
 from F_Taste_autenticazione.utils.jwt_token_factory import JWTTokenFactory
-from F_Taste_autenticazione.db import get_session
 from F_Taste_autenticazione.utils.id_generation import genera_id_valido
 from F_Taste_autenticazione.utils.hashing_password import hash_pwd
-from F_Taste_autenticazione.schemas.paziente import PazienteSchema
 from F_Taste_autenticazione.utils.encrypting_id import encrypt_id
 import F_Taste_autenticazione.utils.credentials as credentials
 from F_Taste_autenticazione.utils.jwt_functions import ACCESS_EXPIRES
@@ -18,9 +15,7 @@ from flask_jwt_extended import create_access_token#non sicuro se da inserire qui
 
 jwt_factory = JWTTokenFactory()
 
-paziente_schema = PazienteSchema(only = ['email', 'password', 'sesso', 'data_nascita'])
-paziente_schema_for_load = PazienteSchema(only = ['email', 'password', 'sesso', 'data_nascita', 'id_paziente'])
-paziente_schema_post_return = PazienteSchema(only=['id_paziente'])
+
 
 class PazienteService:
 

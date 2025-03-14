@@ -1,10 +1,5 @@
-from F_Taste_autenticazione.repositories.admin_repository import AdminRepository
 from F_Taste_autenticazione.utils.jwt_token_factory import JWTTokenFactory
-from F_Taste_autenticazione.db import get_session
-from F_Taste_autenticazione.repositories.nutrizionista_repository import NutrizionistaRepository
-from F_Taste_autenticazione.schemas.nutrizionista import NutrizionistaSchema
 from F_Taste_autenticazione.utils.hashing_password import hash_pwd
-
 #import di kafka
 from F_Taste_autenticazione.kafka.kafka_producer import send_kafka_message
 from F_Taste_autenticazione.kafka.kafka_consumer import wait_for_kafka_response
@@ -12,7 +7,7 @@ from F_Taste_autenticazione.kafka.kafka_consumer import wait_for_kafka_response
 
 jwt_factory = JWTTokenFactory()
 
-nutrizionista_schema = NutrizionistaSchema()
+
 
 
 
