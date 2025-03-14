@@ -58,7 +58,8 @@ def create_app():
       #  if redis is not None:
        #     redis.connection_pool.disconnect()
 
-    #with app.app_context():
+    with app.app_context():
+        pass
         #set_limiter_config()
 
     # @app.after_request
