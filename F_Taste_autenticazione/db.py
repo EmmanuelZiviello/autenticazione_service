@@ -46,7 +46,7 @@ def set_DB_CONFIG():
     DB_CONFIG = {
         'admin': config.DB_URI_ADMIN,
         'patient': config.DB_URI_PATIENT,
-        'dietician':config.DB_URI_DIETITIAN
+        'dietitian':config.DB_URI_DIETITIAN
     }
 
 def create_db():

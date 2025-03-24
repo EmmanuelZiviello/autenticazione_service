@@ -28,6 +28,7 @@ class NutrizionistaLogin(Resource):
 
 class NutrizionistaPaziente(Resource):
     
+    #da fare
     @nutrizionista_required()
     @nutrizionista_ns.expect(signup_paziente_from_nutrizionista)
     @nutrizionista_ns.doc('create paziente')
