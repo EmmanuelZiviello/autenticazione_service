@@ -31,7 +31,7 @@ consumer = KafkaConsumer(
     'dietitian.registrationPatientFromDietitian.success',
     'dietitian.registrationPatientFromDietitian.failed',
     'patient.patch.success',
-    'patient.patch,failed',
+    'patient.patch.failed',
     bootstrap_servers=KAFKA_BROKER_URL,
     client_id="auth_consumer",
     group_id="auth_service",
