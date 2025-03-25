@@ -5,9 +5,10 @@ from F_Taste_autenticazione.db import get_session
 from F_Taste_autenticazione.utils.id_generation import genera_id_valido
 from F_Taste_autenticazione.utils.hashing_password import hash_pwd
 from F_Taste_autenticazione.schemas.paziente import PazienteSchema
-from F_Taste_autenticazione.utils.encrypting_id import encrypt_id
+from F_Taste_autenticazione.utils.encrypting_id import encrypt_id,decrypt_id
 import F_Taste_autenticazione.utils.credentials as credentials
 from F_Taste_autenticazione.utils.jwt_functions import ACCESS_EXPIRES
+from F_Taste_autenticazione.utils.redis import get_redis_connection
 
 #import di kafka
 from F_Taste_autenticazione.kafka.kafka_producer import send_kafka_message
@@ -147,5 +148,19 @@ class PazienteService:
         send_kafka_message("patient.recuperopw.request",message)
         response=wait_for_kafka_response(["patient.recuperopw.success", "patient.recuperopw.failed"])
         return response
+    
+    @staticmethod
+    def patch(id_paziente,token,json_data):
+        if not id_paziente == credentials.reset_password:
+            return {'message': 'not valid'}, 401
+        jti = token["jti"]        
+        #get_redis_connection().set(jti, "", ex= ACCESS_EXPIRES)
+        new_password = json_data['password']
+        id = decrypt_id(json_data['id'])
+        message={"id_paziente":id,"new_password":new_password}
+        send_kafka_message("patient.patch.request",message)
+        response=wait_for_kafka_response(["patient.patch.success", "patient.patch.failed"])
+        return response
+        
         
         

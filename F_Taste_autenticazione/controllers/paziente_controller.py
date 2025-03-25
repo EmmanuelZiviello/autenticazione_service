@@ -4,7 +4,7 @@ from F_Taste_autenticazione.namespaces import paziente_ns
 from F_Taste_autenticazione.services.paziente_service import PazienteService
 from F_Taste_autenticazione.limiter_config import limiter
 from F_Taste_autenticazione.utils.jwt_custom_decorators import paziente_required
-from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import get_jwt_identity,get_jwt,jwt_required
 
 
 cambio_password_model = paziente_ns.model('cambio password', {
@@ -62,3 +62,12 @@ class PazientePassword(Resource):
     def post(self):
         json_data=request.get_json()
         return PazienteService.recupero_pw_paziente(json_data)
+    
+
+    @jwt_required()    
+    def patch(self):
+        id_paziente=get_jwt_identity() 
+        token = get_jwt()
+        data = request.get_json()
+        return PazienteService.patch(id_paziente,token,data)
+        
